@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'questions.dart';
 import 'quiz_brain.dart';
 void main() => runApp(Quizzler());
 QuizBrain quizBrain = QuizBrain();
@@ -30,9 +29,24 @@ class _QuizPageState extends State<QuizPage> {
 
 
 
-  int questionNumber = 0;
-  List<Icon> scoreKeeper = [];
 
+  List<Icon> scoreKeeper = [];
+  void checkAnswer(bool userPickedAnswer){
+    setState(() {
+    bool correctAnswer = quizBrain.getCorrectAnswer();
+    if (userPickedAnswer == correctAnswer){
+      scoreKeeper.add(Icon(Icons.check, color: Colors.green,));
+    } else {
+      scoreKeeper.add(Icon(Icons.close, color: Colors.red,));
+    };
+
+      quizBrain.nextQuestion();
+
+
+    });
+
+
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,7 +58,7 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Center(
-              child: Text(quizBrain.questionBank[questionNumber].questionText,
+              child: Text(quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -66,20 +80,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
 
-              onPressed: () {
-                bool correctAnswer = quizBrain.questionBank[questionNumber].questionAnswer;
-                if (correctAnswer == false){
-                  print('Correct!');
-                } else {
-                  print('Wrong!');
-                };
-                setState(() {
-                  questionNumber++;
-
-
-                });
-
-              },
+              onPressed: () {checkAnswer(true);},
             ),
           ),
         ),
@@ -94,19 +95,7 @@ class _QuizPageState extends State<QuizPage> {
                   color: Colors.white,
                 ),
               ),
-              onPressed: () {
-                bool correctAnswer = quizBrain.questionBank[questionNumber].questionAnswer;
-                if (correctAnswer == true){
-                  print('Correct!');
-                } else {
-                  print('Wrong!');
-                };
-                setState(() {
-                  questionNumber++;
-
-                });
-
-              },
+              onPressed: () {checkAnswer(true);},
             ),
           ),
         ),

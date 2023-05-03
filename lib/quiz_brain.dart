@@ -3,7 +3,8 @@ import 'questions.dart';
 import 'main.dart';
 @immutable
 class QuizBrain {
-  final List<Question> questionBank = [
+  int _questionNumber = 0;
+  final List<Question> _questionBank = [
     Question(
       questionText: "You can lead a cow down stairs but not up stairs.",
       questionAnswer: true,
@@ -53,5 +54,16 @@ class QuizBrain {
       questionAnswer: true,
     ),
   ];
+  String getQuestionText(){
+    return _questionBank[_questionNumber].questionText;
+  }
+  bool getCorrectAnswer(){
+      return _questionBank[_questionNumber].questionAnswer;
+  }
+  void nextQuestion(){
+    if(_questionNumber < _questionBank.length -1){
+     _questionNumber++;
+    }
+  }
 
 }
